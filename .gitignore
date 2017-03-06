@@ -2,6 +2,7 @@ mvnw.cmd
 mvnw
 .mvn
 target/
+/ticker-logging
 
 ### STS ###
 .apt_generated
