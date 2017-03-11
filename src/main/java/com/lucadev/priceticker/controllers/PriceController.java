@@ -2,6 +2,8 @@ package com.lucadev.priceticker.controllers;
 
 import com.lucadev.priceticker.components.CryptoTicker;
 import com.lucadev.priceticker.components.PriceSource;
+import com.lucadev.priceticker.persistence.models.dto.PriceDTO;
+import com.lucadev.priceticker.persistence.models.dto.MarketPriceDTO;
 import com.lucadev.priceticker.services.TickerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,12 +31,12 @@ public class PriceController extends BaseController {
     }
 
     @GetMapping("/{currency}/average")
-    public String getAveragePrice(@PathVariable String currency) {
+    public PriceDTO getAveragePrice(@PathVariable String currency) {
         CryptoTicker ticker = tickerService.getTicker(currency.toUpperCase());
         if(ticker == null) {
-            return "Ticker not found!";
+            return new PriceDTO(false, "Not a valid currency given!");
         }
-        return String.valueOf(ticker.getAveragePrice());
+        return new PriceDTO(ticker.getLastRefreshTime(), ticker.getAveragePrice());
     }
 
     @GetMapping("/{currency}/markets")
@@ -48,23 +50,27 @@ public class PriceController extends BaseController {
         return markets;
     }
 
-    @GetMapping("/{currency}/{markets}/recent")
-    public String getRecentMarketPrice(@PathVariable String currency, @PathVariable String markets) {
+    @GetMapping("/{currency}/{markets}/price")
+    public MarketPriceDTO getRecentMarketPrice(@PathVariable String currency, @PathVariable String markets) {
         CryptoTicker ticker = tickerService.getTicker(currency.toUpperCase());
         if(ticker == null) {
-            return "Ticker not found";
+            return new MarketPriceDTO(false, "Not a valid currency given!");
         }
         String marketNames[] = markets.split(",");
         double average = 0;
+        long lastRefresh = 0;
         for (String marketName : marketNames) {
             PriceSource source = ticker.getSourceByName(marketName);
             if(source == null) {
-                return marketName + " is not a valid market!";
+                return new MarketPriceDTO(false, marketName  + " is not a valid market!");
             }
             average += source.getRecentPrice();
+            if(lastRefresh < source.getTimeLastUpdated()) {
+                lastRefresh = source.getTimeLastUpdated();
+            }
         }
         average /= marketNames.length;
-        return String.format("%.2f", average);
+        return new MarketPriceDTO(lastRefresh, marketNames, average);
     }
 
     @GetMapping("/test")

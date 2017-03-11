@@ -29,6 +29,8 @@ public class BitcoinCryptoTicker implements CryptoTicker {
      */
     private Map<String, Integer> marketMap = new HashMap<>();
 
+    private long lastRefresh = 0;
+
     private double avgPrice = 0;
 
     public BitcoinCryptoTicker() {
@@ -96,6 +98,12 @@ public class BitcoinCryptoTicker implements CryptoTicker {
             price += source.refreshPrice();
         }
         avgPrice = price / priceSources.size();
+        lastRefresh = System.currentTimeMillis();
         return avgPrice;
+    }
+
+    @Override
+    public long getLastRefreshTime() {
+        return lastRefresh;
     }
 }

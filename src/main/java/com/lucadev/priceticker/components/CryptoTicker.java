@@ -52,4 +52,9 @@ public interface CryptoTicker {
     double refreshPrices();
 
 
+    /**
+     * Last refresh time.
+     * @return
+     */
+    long getLastRefreshTime();
 }

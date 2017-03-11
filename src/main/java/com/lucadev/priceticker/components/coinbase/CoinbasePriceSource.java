@@ -40,7 +40,6 @@ public class CoinbasePriceSource implements PriceSource {
         logger.info("Refreshing coinbase prices");
         String priceURL = String.format(apiUrl, currency);
         try {
-            //com.fasterxml.jackson.core.JsonParser parser = jsonFactory.createParser(response);
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode node = objectMapper.readValue(new URL(priceURL), JsonNode.class);
             JsonNode amountNode = node.get("data").get("amount");

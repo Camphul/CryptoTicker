@@ -1,7 +1,5 @@
 package com.lucadev.priceticker.persistence.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 
 /**
@@ -13,7 +11,6 @@ import javax.persistence.*;
 public class MarketPrice {
 
     @Id
-    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
