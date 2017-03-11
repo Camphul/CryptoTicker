@@ -1,8 +1,8 @@
 package com.lucadev.priceticker.persistence.models.dto;
 
 /**
- * DTO for the average price.
- * @author Luca
+ * DTO for the average price which gets json serialized for the REST api endpoints.
+ * @author Luca Camphuisen < Luca.Camphuisen@hva.nl >
  * @since 3/11/2017
  */
 public class PriceDTO {

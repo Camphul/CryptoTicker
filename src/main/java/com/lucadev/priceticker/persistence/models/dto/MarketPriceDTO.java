@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Map;
 
 /**
- * DTO showed to the end user.
- * @author Luca
+ * DTO of market prices which gets json serialized for the REST api endpoints.
+ * @author Luca Camphuisen < Luca.Camphuisen@hva.nl >
  * @since 3/10/2017
  */
 public class MarketPriceDTO extends PriceDTO{

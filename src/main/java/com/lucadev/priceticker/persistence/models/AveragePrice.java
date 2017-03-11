@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 /**
- * Recent price of a single market
- * @author Luca
+ * Database entity for the recent price of a single market.
+ * @author Luca Camphuisen < Luca.Camphuisen@hva.nl >
  * @since 3/6/2017
  */
 @Entity(name = "average_price")

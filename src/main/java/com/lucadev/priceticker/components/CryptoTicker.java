@@ -3,7 +3,8 @@ package com.lucadev.priceticker.components;
 import java.util.List;
 
 /**
- * @author Luca
+ * Interface for crypto price tickers.
+ * @author Luca Camphuisen < Luca.Camphuisen@hva.nl >
  * @since 3/6/2017
  */
 public interface CryptoTicker {
@@ -12,20 +13,20 @@ public interface CryptoTicker {
      * Get all the sources for the ticker
      * @return
      */
-    List<PriceSource> getPriceSources();
+    List<Market> getMarkets();
 
     /**
      * Add a new source for prices
-     * @param priceSource
+     * @param market
      */
-    void addPriceSource(PriceSource priceSource);
+    void addMarket(Market market);
 
     /**
      * Get source by name
      * @param market
      * @return
      */
-    PriceSource getSourceByName(String market);
+    Market getMarketByName(String market);
 
     /**
      * Get the abbreviation of the crypto currency like BTC/LTC/DOGE

@@ -1,8 +1,8 @@
-package com.lucadev.priceticker.components.btc;
+package com.lucadev.priceticker.components.ltc;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lucadev.priceticker.components.PriceSource;
+import com.lucadev.priceticker.components.Market;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,13 +11,13 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * @author Luca
+ * @author Luca Camphuisen < Luca.Camphuisen@hva.nl >
  * @since 3/6/2017
  */
 @Component
-public class BitstampPriceSource implements PriceSource {
+public class CoinMarketCapMarket implements Market {
 
-    private static final String apiUrl = "https://www.bitstamp.net/api/v2/ticker/btcusd/";
+    private static final String apiUrl = "https://coinmarketcap-nexuist.rhcloud.com/api/ltc";
     private static final String currency = "USD";
 
     private long lastUpdated = 0;
@@ -27,7 +27,7 @@ public class BitstampPriceSource implements PriceSource {
 
     @Override
     public String getSupportedCryptoCurrency() {
-        return "BTC";
+        return "LTC";
     }
 
     @Override
@@ -37,15 +37,15 @@ public class BitstampPriceSource implements PriceSource {
 
     @Override
     public double refreshPrice() {
-        appLogger.info("Refreshing BitStamp prices");
+        appLogger.info("Refreshing CoinMarketCap prices");
         String priceURL = String.format(apiUrl, currency);
         try {
             //com.fasterxml.jackson.core.JsonParser parser = jsonFactory.createParser(response);
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode node = objectMapper.readValue(new URL(priceURL), JsonNode.class);
-            JsonNode amountNode = node.get("last");
+            JsonNode amountNode = node.get("price").get("usd");
             lastUpdated = System.currentTimeMillis();
-            recentPrice = Double.parseDouble(amountNode.textValue());
+            recentPrice = amountNode.doubleValue();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,6 +59,6 @@ public class BitstampPriceSource implements PriceSource {
 
     @Override
     public String getSourceName() {
-        return "Bitstamp";
+        return "CoinMarketCap";
     }
 }

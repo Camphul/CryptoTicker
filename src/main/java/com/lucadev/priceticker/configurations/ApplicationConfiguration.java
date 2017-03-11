@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * Appication config
- * @author Luca
+ * Application config
+ * @author Luca Camphuisen < Luca.Camphuisen@hva.nl >
  * @since 3/6/2017
  */
 @Configuration
@@ -17,6 +17,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableJpaRepositories("com.lucadev.priceticker.persistence.repositories")
 public class ApplicationConfiguration {
 
+    /**
+     * TODO: Why isn't my logger working?
+     * @return
+     */
     @Bean
     public Logger appLogger() {
         return LoggerFactory.getLogger(this.getClass());

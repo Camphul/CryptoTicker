@@ -11,14 +11,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Luca
+ * Litecoin price ticker
+ * @author Luca Camphuisen < Luca.Camphuisen@hva.nl >
  * @since 3/6/2017
  */
 @Component
 public class LitecoinCryptoTicker implements CryptoTicker {
 
     @Autowired
-    private List<PriceSource> priceSources;
+    private List<Market> markets;
 
     @Autowired
     private Logger appLogger;
@@ -38,41 +39,40 @@ public class LitecoinCryptoTicker implements CryptoTicker {
 
     @PostConstruct
     public void setup() {
-        List<PriceSource> legitSources = new ArrayList<>();
-        for (PriceSource priceSource : priceSources) {
-            if(priceSource.getSupportedCryptoCurrency().equalsIgnoreCase("LTC")) {
-                legitSources.add(priceSource);
+        List<Market> legitSources = new ArrayList<>();
+        for (Market market : markets) {
+            if(market.getSupportedCryptoCurrency().equalsIgnoreCase("LTC")) {
+                legitSources.add(market);
             }
         }
-        priceSources = legitSources;
-        for (int i = 0; i < priceSources.size(); i++) {
-            marketMap.put(priceSources.get(i).getSourceName().toLowerCase(), i);
+        markets = legitSources;
+        for (int i = 0; i < markets.size(); i++) {
+            marketMap.put(markets.get(i).getSourceName().toLowerCase(), i);
         }
     }
 
-    @Override
-    public List<PriceSource> getPriceSources() {
-        return priceSources;
+    public List<Market> getMarkets() {
+        return markets;
     }
 
     @Override
-    public void addPriceSource(PriceSource priceSource) {
-        priceSources.add(priceSource);
-        marketMap.put(priceSource.getSourceName().toLowerCase(), priceSources.size()-1);
+    public void addMarket(Market market) {
+        markets.add(market);
+        marketMap.put(market.getSourceName().toLowerCase(), markets.size()-1);
     }
 
     @Override
-    public PriceSource getSourceByName(String market) {
+    public Market getMarketByName(String market) {
         if(!marketMap.containsKey(market.toLowerCase())) {
             return null;
         }
 
         int index = marketMap.get(market.toLowerCase());
-        if(getPriceSources().size() < index) {
+        if(getMarkets().size() < index) {
             return null;
         }
 
-        return getPriceSources().get(index);
+        return getMarkets().get(index);
     }
 
     @Override
@@ -93,10 +93,10 @@ public class LitecoinCryptoTicker implements CryptoTicker {
     @Override
     public double refreshPrices() {
         double price = 0;
-        for (PriceSource source : priceSources) {
+        for (Market source : markets) {
             price += source.refreshPrice();
         }
-        avgPrice = price / priceSources.size();
+        avgPrice = price / markets.size();
         lastRefresh = System.currentTimeMillis();
         return avgPrice;
     }

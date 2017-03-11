@@ -1,10 +1,11 @@
 package com.lucadev.priceticker.components;
 
 /**
- * @author Luca
+ * Interface for a market
+ * @author Luca Camphuisen < Luca.Camphuisen@hva.nl >
  * @since 3/6/2017
  */
-public interface PriceSource {
+public interface Market {
 
     String getSupportedCryptoCurrency();
 

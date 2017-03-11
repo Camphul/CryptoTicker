@@ -1,7 +1,7 @@
 package com.lucadev.priceticker.controllers;
 
 import com.lucadev.priceticker.components.CryptoTicker;
-import com.lucadev.priceticker.components.PriceSource;
+import com.lucadev.priceticker.components.Market;
 import com.lucadev.priceticker.persistence.models.dto.PriceDTO;
 import com.lucadev.priceticker.persistence.models.dto.MarketPriceDTO;
 import com.lucadev.priceticker.services.TickerService;
@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.*;
 
 /**
- * @author Luca
+ * REST API for prices.
+ * @author Luca Camphuisen < Luca.Camphuisen@hva.nl >
  * @since 3/6/2017
  */
 @RestController
@@ -43,7 +44,7 @@ public class PriceController extends BaseController {
             return Collections.emptyList();
         }
         List<String> markets = new ArrayList<>();
-        ticker.getPriceSources().forEach(market -> markets.add(market.getSourceName()));
+        ticker.getMarkets().forEach(market -> markets.add(market.getSourceName()));
         return markets;
     }
 
@@ -56,14 +57,14 @@ public class PriceController extends BaseController {
         double average = 0;
         long lastRefresh = 0;
         Map<String, Double> prices = new HashMap<>();
-        for (PriceSource source : ticker.getPriceSources()) {
+        for (Market source : ticker.getMarkets()) {
             prices.put(source.getSourceName(), source.getRecentPrice());
             average += source.getRecentPrice();
             if(lastRefresh < source.getTimeLastUpdated()) {
                 lastRefresh = source.getTimeLastUpdated();
             }
         }
-        average /= ticker.getPriceSources().size();
+        average /= ticker.getMarkets().size();
         return new MarketPriceDTO(lastRefresh, prices, average, ticker.getCryptoAbbreviation());
     }
 
@@ -78,7 +79,7 @@ public class PriceController extends BaseController {
         long lastRefresh = 0;
         Map<String, Double> prices = new HashMap<>();
         for (String marketName : marketNames) {
-            PriceSource source = ticker.getSourceByName(marketName);
+            Market source = ticker.getMarketByName(marketName);
             if(source == null) {
                 return new MarketPriceDTO(false, marketName  + " is not a valid market!");
             }

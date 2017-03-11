@@ -3,8 +3,8 @@ package com.lucadev.priceticker.persistence.models;
 import javax.persistence.*;
 
 /**
- * Recent price of a single market
- * @author Luca
+ * Database entity of a recent price of a single market
+ * @author Luca Camphuisen < Luca.Camphuisen@hva.nl >
  * @since 3/6/2017
  */
 @Entity(name = "market_price")

@@ -2,7 +2,7 @@ package com.lucadev.priceticker.components.btc;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lucadev.priceticker.components.PriceSource;
+import com.lucadev.priceticker.components.Market;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,13 +11,13 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * @author Luca
+ * @author Luca Camphuisen < Luca.Camphuisen@hva.nl >
  * @since 3/6/2017
  */
 @Component
-public class CoindeskPriceSource implements PriceSource {
+public class BitstampMarket implements Market {
 
-    private static final String apiUrl = "http://api.coindesk.com/v1/bpi/currentprice/%s.json";
+    private static final String apiUrl = "https://www.bitstamp.net/api/v2/ticker/btcusd/";
     private static final String currency = "USD";
 
     private long lastUpdated = 0;
@@ -37,15 +37,15 @@ public class CoindeskPriceSource implements PriceSource {
 
     @Override
     public double refreshPrice() {
-        appLogger.info("Refreshing coindesk prices");
+        appLogger.info("Refreshing BitStamp prices");
         String priceURL = String.format(apiUrl, currency);
         try {
             //com.fasterxml.jackson.core.JsonParser parser = jsonFactory.createParser(response);
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode node = objectMapper.readValue(new URL(priceURL), JsonNode.class);
-            JsonNode amountNode = node.get("bpi").get(currency).get("rate_float");
+            JsonNode amountNode = node.get("last");
             lastUpdated = System.currentTimeMillis();
-            recentPrice = amountNode.doubleValue();
+            recentPrice = Double.parseDouble(amountNode.textValue());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,6 +59,6 @@ public class CoindeskPriceSource implements PriceSource {
 
     @Override
     public String getSourceName() {
-        return "Coindesk";
+        return "Bitstamp";
     }
 }
