@@ -20,7 +20,7 @@ public abstract class AbstractPriceTicker implements PriceTicker {
     private List<Market> markets;
 
     @Autowired
-    private Logger appLogger;
+    private Logger logger;
 
     /**
      * Market name -> index in list

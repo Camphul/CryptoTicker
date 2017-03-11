@@ -35,7 +35,7 @@ public class TickerService {
      * Slf4j2 logger
      */
     @Autowired
-    private Logger appLogger;
+    private Logger logger;
 
     /**
      * Service that wraps repositories to gain price information.
@@ -50,7 +50,7 @@ public class TickerService {
     public void setup() {
         tickerList.forEach(ticker -> {
             tickers.put(ticker.getCryptoAbbreviation(), ticker);
-            appLogger.info("Registered ticker: " + ticker.getCryptoAbbreviation());
+            logger.info("Registered ticker: " + ticker.getCryptoAbbreviation());
         });
     }
 
@@ -60,7 +60,7 @@ public class TickerService {
      */
     @Scheduled(fixedRate = 30000)
     public void refreshData() {
-        appLogger.info("Refreshing ticker prices");
+        logger.info("Refreshing ticker prices");
         for (PriceTicker ticker : tickerList) {
             ticker.refreshPrices();
             priceService.addAveragePriceUpdate(ticker);

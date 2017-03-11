@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public abstract class BaseController {
 
     @Autowired
-    private Logger appLogger;
+    private Logger logger;
 
-    public Logger getAppLogger() {
-        return appLogger;
+    public Logger getlogger() {
+        return logger;
     }
 }
