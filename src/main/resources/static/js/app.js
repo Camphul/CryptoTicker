@@ -46,6 +46,7 @@ angular.module('price', [])
     $scope.switchCurrency = function(currency) {
         $scope.selectedcurrency = currency;
         $scope.refreshAverage();
+        $scope.forExConvert();
     }
     $interval(function() {
         $scope.refreshAverage();
