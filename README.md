@@ -1,5 +1,6 @@
 # PriceTicker
 PriceTicker is a Spring-boot application that updates crypto currency prices every so often.
+It makes use of Spring-boot, hibernate(to store price history), thymeleaf, angularjs(for refreshing and front end), bootstrap.
 
 This is in no way a professional spring-boot application. I'm currently learning about the framework by making applications like these.
 

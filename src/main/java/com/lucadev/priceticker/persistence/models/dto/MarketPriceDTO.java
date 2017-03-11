@@ -9,8 +9,8 @@ public class MarketPriceDTO extends PriceDTO{
 
     private String[] markets;
 
-    public MarketPriceDTO(long timestamp, String[] markets,  double price) {
-        super(timestamp, price);
+    public MarketPriceDTO(long timestamp, String[] markets,  double price, String currency) {
+        super(timestamp, price, currency);
         this.markets = markets;
     }
 

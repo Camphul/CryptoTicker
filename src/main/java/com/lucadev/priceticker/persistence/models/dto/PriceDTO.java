@@ -9,12 +9,14 @@ public class PriceDTO {
 
     private boolean success;
     private String message = "";
+    private String currency;
     private long timestamp;
     private double price;
 
-    public PriceDTO(long timestamp, double price) {
+    public PriceDTO(long timestamp, double price, String currency) {
         this.timestamp = timestamp;
         this.price = price;
+        this.currency = currency;
         success = true;
     }
 
@@ -37,5 +39,9 @@ public class PriceDTO {
 
     public String getMessage() {
         return message;
+    }
+
+    public String getCurrency() {
+        return currency;
     }
 }

@@ -36,7 +36,7 @@ public class PriceController extends BaseController {
         if(ticker == null) {
             return new PriceDTO(false, "Not a valid currency given!");
         }
-        return new PriceDTO(ticker.getLastRefreshTime(), ticker.getAveragePrice());
+        return new PriceDTO(ticker.getLastRefreshTime(), ticker.getAveragePrice(), ticker.getCryptoAbbreviation());
     }
 
     @GetMapping("/{currency}/markets")
@@ -70,7 +70,7 @@ public class PriceController extends BaseController {
             }
         }
         average /= marketNames.length;
-        return new MarketPriceDTO(lastRefresh, marketNames, average);
+        return new MarketPriceDTO(lastRefresh, marketNames, average, ticker.getCryptoAbbreviation());
     }
 
     @GetMapping("/test")
