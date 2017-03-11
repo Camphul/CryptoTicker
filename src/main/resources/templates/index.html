@@ -67,7 +67,7 @@
         <div class="col-md-4">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">{{price.currency}} Markets:</div>
+                    <div class="panel-heading">{{price.currency}} Markets</div>
                     <div class="panel-body">
                         <ul class="list-group">
                             <li ng-repeat="(key, value) in marketprices" class="list-group-item">{{key}} <span class="badge">{{value | currency:"$"}}</span></li>
@@ -79,7 +79,7 @@
         <div class="col-md-4">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Currencies:</div>
+                    <div class="panel-heading">Currencies</div>
                     <div class="panel-body">
                         <ul class="list-group">
                             <a ng-repeat="name in currencies" ng-click="switchCurrency(name)" class="list-group-item">{{name}}</a>

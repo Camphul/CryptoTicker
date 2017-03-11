@@ -50,6 +50,7 @@ angular.module('price', [])
     }
     $interval(function() {
         $scope.refreshAverage();
+        $scope.forExConvert();
     }, $scope.refreshrate);
 
     $scope.refreshAverage();
