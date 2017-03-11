@@ -21,7 +21,7 @@ public class BitcoinCryptoTicker implements CryptoTicker {
     private List<PriceSource> priceSources;
 
     @Autowired
-    private Logger logger;
+    private Logger appLogger;
 
     /**
      * Market name -> index in list

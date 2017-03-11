@@ -18,8 +18,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class ApplicationConfiguration {
 
     @Bean
-    public Logger logger() {
-        return LoggerFactory.getLogger("lucadev");
+    public Logger appLogger() {
+        return LoggerFactory.getLogger(this.getClass());
     }
 
 }

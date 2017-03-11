@@ -23,7 +23,7 @@ public class BitstampPriceSource implements PriceSource {
     private long lastUpdated = 0;
     private double recentPrice = 0;
     @Autowired
-    private Logger logger;
+    private Logger appLogger;
 
     @Override
     public String getSupportedCryptoCurrency() {
@@ -37,7 +37,7 @@ public class BitstampPriceSource implements PriceSource {
 
     @Override
     public double refreshPrice() {
-        logger.info("Refreshing BitStamp prices");
+        appLogger.info("Refreshing BitStamp prices");
         String priceURL = String.format(apiUrl, currency);
         try {
             //com.fasterxml.jackson.core.JsonParser parser = jsonFactory.createParser(response);

@@ -45,11 +45,11 @@
             <AppenderRef ref="SpringBoot-File-Appender"/>
             <AppenderRef ref="Console-Appender"/>
         </Logger>
-        <Logger name="lucadev" level="info" additivity="false">
+        <Logger name="com.lucadev.priceticker" level="info" additivity="false">
             <AppenderRef ref="App-File-Appender"/>
             <AppenderRef ref="Console-Appender"/>
         </Logger>
-        <Logger name="lucadev" level="error" additivity="false">
+        <Logger name="com.lucadev.priceticker" level="error" additivity="false">
             <AppenderRef ref="App-Error-File-Appender"/>
             <AppenderRef ref="Console-Appender-Error"/>
         </Logger>

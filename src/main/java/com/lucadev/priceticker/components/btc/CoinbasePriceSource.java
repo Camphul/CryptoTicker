@@ -23,7 +23,7 @@ public class CoinbasePriceSource implements PriceSource {
     private long lastUpdated = 0;
     private double recentPrice = 0;
     @Autowired
-    private Logger logger;
+    private Logger appLogger;
 
     @Override
     public String getSupportedCryptoCurrency() {
@@ -37,7 +37,7 @@ public class CoinbasePriceSource implements PriceSource {
 
     @Override
     public double refreshPrice() {
-        logger.info("Refreshing Coinbase prices");
+        appLogger.info("Refreshing Coinbase prices");
         String priceURL = String.format(apiUrl, currency);
         try {
             ObjectMapper objectMapper = new ObjectMapper();
