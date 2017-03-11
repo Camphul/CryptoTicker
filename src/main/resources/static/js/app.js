@@ -27,6 +27,19 @@ angular.module('price', [])
         });
     }
 
+    $scope.rates = {};
+    $http.get('http://api.fixer.io/latest?base=ZAR')
+        .then(function(res) {
+            $scope.rates = res.data.rates;
+            $scope.toType = $scope.rates.USD;
+            $scope.fromType = $scope.rates.USD;
+            $scope.fromValue = 1;
+            $scope.forExConvert();
+        });
+    $scope.forExConvert = function() {
+        $scope.toValue = ($scope.fromValue * $scope.price.price) * ($scope.toType * (1 / $scope.fromType));
+        $scope.toValue = $scope.toValue.toFixed(2);
+    };
 
     $scope.fetchCurrencies();
 
