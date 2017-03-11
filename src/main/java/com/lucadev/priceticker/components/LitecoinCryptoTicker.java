@@ -15,7 +15,7 @@ import java.util.Map;
  * @since 3/6/2017
  */
 @Component
-public class BitcoinCryptoTicker implements CryptoTicker {
+public class LitecoinCryptoTicker implements CryptoTicker {
 
     @Autowired
     private List<PriceSource> priceSources;
@@ -32,7 +32,7 @@ public class BitcoinCryptoTicker implements CryptoTicker {
 
     private double avgPrice = 0;
 
-    public BitcoinCryptoTicker() {
+    public LitecoinCryptoTicker() {
 
     }
 
@@ -40,7 +40,7 @@ public class BitcoinCryptoTicker implements CryptoTicker {
     public void setup() {
         List<PriceSource> legitSources = new ArrayList<>();
         for (PriceSource priceSource : priceSources) {
-            if(priceSource.getSupportedCryptoCurrency().equalsIgnoreCase("BTC")) {
+            if(priceSource.getSupportedCryptoCurrency().equalsIgnoreCase("LTC")) {
                 legitSources.add(priceSource);
             }
         }
@@ -77,12 +77,12 @@ public class BitcoinCryptoTicker implements CryptoTicker {
 
     @Override
     public String getCryptoAbbreviation() {
-        return "BTC";
+        return "LTC";
     }
 
     @Override
     public String getFullCryptoName() {
-        return "Bitcoin";
+        return "Litecoin";
     }
 
     @Override

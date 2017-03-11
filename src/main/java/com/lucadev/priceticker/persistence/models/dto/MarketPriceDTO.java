@@ -1,5 +1,9 @@
 package com.lucadev.priceticker.persistence.models.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.Map;
+
 /**
  * DTO showed to the end user.
  * @author Luca
@@ -7,18 +11,23 @@ package com.lucadev.priceticker.persistence.models.dto;
  */
 public class MarketPriceDTO extends PriceDTO{
 
-    private String[] markets;
+    private Map<String, Double> prices;
 
-    public MarketPriceDTO(long timestamp, String[] markets,  double price, String currency) {
+    public MarketPriceDTO(long timestamp, Map<String, Double> prices, double price, String currency) {
         super(timestamp, price, currency);
-        this.markets = markets;
+        this.prices = prices;
     }
 
     public MarketPriceDTO(boolean success, String message) {
         super(success, message);
     }
 
+    @JsonIgnore
     public String[] getMarkets() {
-        return markets;
+        return prices.keySet().toArray(new String[prices.keySet().size()]);
+    }
+
+    public Map<String, Double> getPrices() {
+        return prices;
     }
 }

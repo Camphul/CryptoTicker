@@ -1,4 +1,4 @@
-package com.lucadev.priceticker.components.coinbase;
+package com.lucadev.priceticker.components.btc;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,9 +15,9 @@ import java.net.URL;
  * @since 3/6/2017
  */
 @Component
-public class CoindeskPriceSource implements PriceSource {
+public class BitstampPriceSource implements PriceSource {
 
-    private static final String apiUrl = "http://api.coindesk.com/v1/bpi/currentprice/%s.json";
+    private static final String apiUrl = "https://www.bitstamp.net/api/v2/ticker/btcusd/";
     private static final String currency = "USD";
 
     private long lastUpdated = 0;
@@ -37,15 +37,15 @@ public class CoindeskPriceSource implements PriceSource {
 
     @Override
     public double refreshPrice() {
-        logger.info("Refreshing coindesk prices");
+        logger.info("Refreshing BitStamp prices");
         String priceURL = String.format(apiUrl, currency);
         try {
             //com.fasterxml.jackson.core.JsonParser parser = jsonFactory.createParser(response);
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode node = objectMapper.readValue(new URL(priceURL), JsonNode.class);
-            JsonNode amountNode = node.get("bpi").get(currency).get("rate_float");
+            JsonNode amountNode = node.get("last");
             lastUpdated = System.currentTimeMillis();
-            recentPrice = amountNode.doubleValue();
+            recentPrice = Double.parseDouble(amountNode.textValue());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,6 +59,6 @@ public class CoindeskPriceSource implements PriceSource {
 
     @Override
     public String getSourceName() {
-        return "Coindesk";
+        return "Bitstamp";
     }
 }

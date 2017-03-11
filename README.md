@@ -18,6 +18,9 @@ Return a list of usable markets for the given currency
 ###/{currency}/{markets}/price
 Return average currency worth of the given markets separated by a comma.
 
+###/{currency}/all/price
+Return average currency worth of all available markets.
+
 ## Todo
 - Nice looking front end
 - Use models instead of returning strings in mappings **Pretty much done**

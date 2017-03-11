@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Luca
@@ -50,6 +47,26 @@ public class PriceController extends BaseController {
         return markets;
     }
 
+    @GetMapping("/{currency}/all/price")
+    public MarketPriceDTO getAllRecentMarketPrice(@PathVariable String currency) {
+        CryptoTicker ticker = tickerService.getTicker(currency.toUpperCase());
+        if(ticker == null) {
+            return new MarketPriceDTO(false, "Not a valid currency given!");
+        }
+        double average = 0;
+        long lastRefresh = 0;
+        Map<String, Double> prices = new HashMap<>();
+        for (PriceSource source : ticker.getPriceSources()) {
+            prices.put(source.getSourceName(), source.getRecentPrice());
+            average += source.getRecentPrice();
+            if(lastRefresh < source.getTimeLastUpdated()) {
+                lastRefresh = source.getTimeLastUpdated();
+            }
+        }
+        average /= ticker.getPriceSources().size();
+        return new MarketPriceDTO(lastRefresh, prices, average, ticker.getCryptoAbbreviation());
+    }
+
     @GetMapping("/{currency}/{markets}/price")
     public MarketPriceDTO getRecentMarketPrice(@PathVariable String currency, @PathVariable String markets) {
         CryptoTicker ticker = tickerService.getTicker(currency.toUpperCase());
@@ -59,18 +76,20 @@ public class PriceController extends BaseController {
         String marketNames[] = markets.split(",");
         double average = 0;
         long lastRefresh = 0;
+        Map<String, Double> prices = new HashMap<>();
         for (String marketName : marketNames) {
             PriceSource source = ticker.getSourceByName(marketName);
             if(source == null) {
                 return new MarketPriceDTO(false, marketName  + " is not a valid market!");
             }
+            prices.put(source.getSourceName(), source.getRecentPrice());
             average += source.getRecentPrice();
             if(lastRefresh < source.getTimeLastUpdated()) {
                 lastRefresh = source.getTimeLastUpdated();
             }
         }
         average /= marketNames.length;
-        return new MarketPriceDTO(lastRefresh, marketNames, average, ticker.getCryptoAbbreviation());
+        return new MarketPriceDTO(lastRefresh, prices, average, ticker.getCryptoAbbreviation());
     }
 
     @GetMapping("/test")

@@ -1,4 +1,4 @@
-package com.lucadev.priceticker.components.coinbase;
+package com.lucadev.priceticker.components.ltc;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,9 +15,9 @@ import java.net.URL;
  * @since 3/6/2017
  */
 @Component
-public class CoinbasePriceSource implements PriceSource {
+public class CoinMarketCapPriceSource implements PriceSource {
 
-    private static final String apiUrl = "https://api.coinbase.com/v2/prices/spot?currency=%s";
+    private static final String apiUrl = "https://coinmarketcap-nexuist.rhcloud.com/api/ltc";
     private static final String currency = "USD";
 
     private long lastUpdated = 0;
@@ -27,7 +27,7 @@ public class CoinbasePriceSource implements PriceSource {
 
     @Override
     public String getSupportedCryptoCurrency() {
-        return "BTC";
+        return "LTC";
     }
 
     @Override
@@ -37,14 +37,15 @@ public class CoinbasePriceSource implements PriceSource {
 
     @Override
     public double refreshPrice() {
-        logger.info("Refreshing coinbase prices");
+        logger.info("Refreshing CoinMarketCap prices");
         String priceURL = String.format(apiUrl, currency);
         try {
+            //com.fasterxml.jackson.core.JsonParser parser = jsonFactory.createParser(response);
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode node = objectMapper.readValue(new URL(priceURL), JsonNode.class);
-            JsonNode amountNode = node.get("data").get("amount");
+            JsonNode amountNode = node.get("price").get("usd");
             lastUpdated = System.currentTimeMillis();
-            recentPrice = Double.parseDouble(amountNode.textValue());
+            recentPrice = amountNode.doubleValue();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,6 +59,6 @@ public class CoinbasePriceSource implements PriceSource {
 
     @Override
     public String getSourceName() {
-        return "Coinbase";
+        return "CoinMarketCap";
     }
 }

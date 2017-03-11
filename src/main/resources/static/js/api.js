@@ -1,20 +1,22 @@
 //Angular API for price checking
 angular.module('price', [])
 .controller('price', function($scope, $http, $interval) {
-    $scope.selected.currency = 'BTC';
+    $scope.selectedcurrency = 'BTC';
     $scope.refreshrate = 10000;
-
+    $scope.markets = [];
     $scope.refreshAverage = function() {
-        $http.get('/' + $scope.selected.currency + '/average').
+        $http.get('/' + $scope.selectedcurrency + '/all/price').
         then(function(response) {
-            $scope.average = response.data;
+            $scope.price = response.data;
+            $scope.marketprices = response.data.prices;
         });
     }
 
     $scope.fetchMarkets = function() {
-        $http.get('/' + $scope.selected.currency + '/markets').
+        $http.get('/' + $scope.selectedcurrency + '/markets').
         then(function(response) {
             $scope.markets = response.data;
+            console.log($scope.markets);
         });
     }
 
@@ -25,14 +27,16 @@ angular.module('price', [])
         });
     }
 
-    $scope.switchCurrency = function(currency) {
-        $scope.selected.currency = currency;
-        refreshAverage();
-        fetchMarkets();
-    }
+
     $scope.fetchCurrencies();
-    $scope.switchCurrency('BTC');
+
+    $scope.switchCurrency = function(currency) {
+        $scope.selectedcurrency = currency;
+        $scope.refreshAverage();
+    }
     $interval(function() {
         $scope.refreshAverage();
     }, $scope.refreshrate);
+
+    $scope.refreshAverage();
 });
