@@ -7,7 +7,7 @@ import java.util.List;
  * @author Luca Camphuisen < Luca.Camphuisen@hva.nl >
  * @since 3/6/2017
  */
-public interface CryptoTicker {
+public interface PriceTicker {
 
     /**
      * Get all the sources for the ticker

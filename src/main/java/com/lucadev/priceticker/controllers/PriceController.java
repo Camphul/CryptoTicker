@@ -1,6 +1,6 @@
 package com.lucadev.priceticker.controllers;
 
-import com.lucadev.priceticker.components.CryptoTicker;
+import com.lucadev.priceticker.components.PriceTicker;
 import com.lucadev.priceticker.components.Market;
 import com.lucadev.priceticker.persistence.models.dto.PriceDTO;
 import com.lucadev.priceticker.persistence.models.dto.MarketPriceDTO;
@@ -30,7 +30,7 @@ public class PriceController extends BaseController {
 
     @GetMapping("/{currency}/average")
     public PriceDTO getAveragePrice(@PathVariable String currency) {
-        CryptoTicker ticker = tickerService.getTicker(currency.toUpperCase());
+        PriceTicker ticker = tickerService.getTicker(currency.toUpperCase());
         if(ticker == null) {
             return new PriceDTO(false, "Not a valid currency given!");
         }
@@ -39,7 +39,7 @@ public class PriceController extends BaseController {
 
     @GetMapping("/{currency}/markets")
     public List<String> listAvailableMarket(@PathVariable String currency) {
-        CryptoTicker ticker = tickerService.getTicker(currency.toUpperCase());
+        PriceTicker ticker = tickerService.getTicker(currency.toUpperCase());
         if(ticker == null) {
             return Collections.emptyList();
         }
@@ -50,7 +50,7 @@ public class PriceController extends BaseController {
 
     @GetMapping("/{currency}/all/price")
     public MarketPriceDTO getAllRecentMarketPrice(@PathVariable String currency) {
-        CryptoTicker ticker = tickerService.getTicker(currency.toUpperCase());
+        PriceTicker ticker = tickerService.getTicker(currency.toUpperCase());
         if(ticker == null) {
             return new MarketPriceDTO(false, "Not a valid currency given!");
         }
@@ -70,7 +70,7 @@ public class PriceController extends BaseController {
 
     @GetMapping("/{currency}/{markets}/price")
     public MarketPriceDTO getRecentMarketPrice(@PathVariable String currency, @PathVariable String markets) {
-        CryptoTicker ticker = tickerService.getTicker(currency.toUpperCase());
+        PriceTicker ticker = tickerService.getTicker(currency.toUpperCase());
         if(ticker == null) {
             return new MarketPriceDTO(false, "Not a valid currency given!");
         }

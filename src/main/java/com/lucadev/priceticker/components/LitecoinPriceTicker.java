@@ -16,7 +16,7 @@ import java.util.Map;
  * @since 3/6/2017
  */
 @Component
-public class LitecoinCryptoTicker implements CryptoTicker {
+public class LitecoinPriceTicker implements PriceTicker {
 
     @Autowired
     private List<Market> markets;
@@ -33,7 +33,7 @@ public class LitecoinCryptoTicker implements CryptoTicker {
 
     private double avgPrice = 0;
 
-    public LitecoinCryptoTicker() {
+    public LitecoinPriceTicker() {
 
     }
 

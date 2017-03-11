@@ -1,6 +1,6 @@
 package com.lucadev.priceticker.services;
 
-import com.lucadev.priceticker.components.CryptoTicker;
+import com.lucadev.priceticker.components.PriceTicker;
 import com.lucadev.priceticker.components.Market;
 import com.lucadev.priceticker.persistence.models.AveragePrice;
 import com.lucadev.priceticker.persistence.models.MarketPrice;
@@ -39,7 +39,7 @@ public class PriceService {
         averagePriceRepository.save(averagePrice);
     }
 
-    public void addAveragePriceUpdate(CryptoTicker ticker) {
+    public void addAveragePriceUpdate(PriceTicker ticker) {
         addAveragePriceUpdate(new AveragePrice(System.currentTimeMillis(), ticker.getCryptoAbbreviation(), ticker.getAveragePrice()));
     }
 }

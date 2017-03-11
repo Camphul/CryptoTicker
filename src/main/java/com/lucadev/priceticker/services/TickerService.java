@@ -1,6 +1,6 @@
 package com.lucadev.priceticker.services;
 
-import com.lucadev.priceticker.components.CryptoTicker;
+import com.lucadev.priceticker.components.PriceTicker;
 import com.lucadev.priceticker.components.Market;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +23,13 @@ public class TickerService {
     /**
      * Map of all the tickers, key value is the crypto currency abbreviation in capitalized letters.
      */
-    private Map<String, CryptoTicker> tickers = new HashMap<>();
+    private Map<String, PriceTicker> tickers = new HashMap<>();
 
     /**
      * Autowired list of all crypto tickers.
      */
     @Autowired
-    private List<CryptoTicker> tickerList;
+    private List<PriceTicker> tickerList;
 
     /**
      * Slf4j2 logger
@@ -61,7 +61,7 @@ public class TickerService {
     @Scheduled(fixedRate = 30000)
     public void refreshData() {
         appLogger.info("Refreshing ticker prices");
-        for (CryptoTicker ticker : tickerList) {
+        for (PriceTicker ticker : tickerList) {
             ticker.refreshPrices();
             priceService.addAveragePriceUpdate(ticker);
             for (Market market : ticker.getMarkets()) {
@@ -76,7 +76,7 @@ public class TickerService {
      * @param cryptoAbbreviation abbreviation of the crypto currency, most of the time in capital letters.
      * @return
      */
-    public CryptoTicker getTicker(String cryptoAbbreviation) {
+    public PriceTicker getTicker(String cryptoAbbreviation) {
         return tickers.get(cryptoAbbreviation);
     }
 
@@ -84,7 +84,7 @@ public class TickerService {
      * Obtain the map of price tickers.
      * @return
      */
-    public Map<String, CryptoTicker> getTickers() {
+    public Map<String, PriceTicker> getTickers() {
         return tickers;
     }
 }
